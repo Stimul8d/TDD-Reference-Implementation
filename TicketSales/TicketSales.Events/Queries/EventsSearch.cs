@@ -10,9 +10,10 @@ namespace TicketSales.Events.Queries
     {
         private IEnumerable<Event> events;
 
-        public EventsSearch(IEnumerable<Event> events = null)
+        public EventsSearch() : this(new List<Event>()) { }
+
+        public EventsSearch(IEnumerable<Event> events)
         {
-            if(events == null) events = new List<Event>();
             this.events = events;
         }
 

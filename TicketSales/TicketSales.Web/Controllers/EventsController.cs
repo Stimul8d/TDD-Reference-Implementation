@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Web.Mvc;
 using Omu.ValueInjecter;
 using TicketSales.Events.Domain;
@@ -19,9 +21,17 @@ namespace TicketSales.Web.Controllers
         // GET: Events
         public ActionResult Search(SearchRequestViewModel searchViewModel)
         {
-            var events = eventQuery.Execute(searchViewModel.Term);
+            IEnumerable<Event> events = new List<Event>();
             var message = "Search Results...";
-            if (!events.Any()) message = "No Results";
+            try
+            {
+                events = eventQuery.Execute(searchViewModel.Term).ToList();
+                if (!events.Any()) message = "No Results";
+            }
+            catch (Exception)
+            {
+                message = "Oops. Something went wrong!";
+            }
             return View(new SearchResponseViewModel(events, message));
         }
     }

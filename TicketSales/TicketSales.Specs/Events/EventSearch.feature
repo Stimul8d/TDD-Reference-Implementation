@@ -19,4 +19,4 @@ Scenario: No Results
 Scenario: Error
 	Given the search is broken
 	When I search for Anything
-	Then the results should show a message saying 'a problem occurred, try again'
+	Then I should see a message saying 'Oops. Something went wrong!'

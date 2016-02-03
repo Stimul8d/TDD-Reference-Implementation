@@ -124,7 +124,7 @@ this.FeatureBackground();
 #line 21
  testRunner.When("I search for Anything", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 22
- testRunner.Then("the results should show a message saying \'a problem occurred, try again\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.Then("I should see a message saying \'Oops. Something went wrong!\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
         }
