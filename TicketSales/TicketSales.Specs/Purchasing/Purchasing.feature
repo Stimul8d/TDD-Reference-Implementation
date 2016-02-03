@@ -3,27 +3,27 @@
 	As a Customer
 	I want to buy tickets
 
+Background: 
+	Given there are 3 tickets left for event 42
+	And I am on the Buy Ticket Page
+
 @Purchasing
 Scenario: Purchase Ticket
-	Given I have selected an event
-	And I have chosen the number of tickets i want
-	And there is enough tickets left
+	And I have chosen 3 tickets
 	When I press buy
 	Then the order should be put through
+	And there should be 0 tickets left
 	And I should see a message saying thankyou
 	And I should receive an email confirming the details
 
 Scenario: Not enough inventory
-	Given I have selected an event
-	And I have chosen the number of tickets i want
-	And there is not enough tickets left
+	And I have chosen 6 tickets
 	When I press buy
+	Then inventory should not be updated
 	And I should see a message saying 'hard luck loser'
 
 Scenario: Error
-	Given I have selected an event
-	And I have chosen the number of tickets i want
-	And the purchasing service is broken
+	And purchasing is broken
 	When I press buy
 	And I should see a message saying 'oops, something went wrong'
 

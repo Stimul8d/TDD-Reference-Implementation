@@ -145,6 +145,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\StructuremapMvc.cs" />
+    <Compile Include="Controllers\BuyTicketsController.cs" />
     <Compile Include="Controllers\EventsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="DependencyResolution\ControllerConvention.cs" />
@@ -156,6 +157,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ViewModels\BuyTickets\BuyTicketsRequestViewModel.cs" />
     <Compile Include="ViewModels\Search\SearchedEventViewModel.cs" />
     <Compile Include="ViewModels\Search\SearchRequestViewModel.cs" />
     <Compile Include="ViewModels\Search\SearchResponseViewModel.cs" />
@@ -196,6 +198,7 @@
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Events\Search.cshtml" />
+    <Content Include="Views\BuyTickets\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Models\" />
@@ -216,6 +219,10 @@
     <ProjectReference Include="..\TicketSales.Infrastructure\TicketSales.Infrastructure.csproj">
       <Project>{5DAC6CDB-F0B2-4727-97D5-E3AB1476B0D1}</Project>
       <Name>TicketSales.Infrastructure</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TicketSales.Purchasing\TicketSales.Purchasing.csproj">
+      <Project>{fa4de66f-f011-4e9b-8c8d-8eaf05b4af42}</Project>
+      <Name>TicketSales.Purchasing</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

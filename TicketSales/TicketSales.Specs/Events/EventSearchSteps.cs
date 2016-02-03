@@ -4,8 +4,6 @@ using System.Linq;
 using System.Web.Mvc;
 using FluentAssertions;
 using NSubstitute;
-using NSubstitute.ExceptionExtensions;
-using NSubstitute.Extensions;
 using TechTalk.SpecFlow;
 using TicketSales.Events.Domain;
 using TicketSales.Events.Queries;
