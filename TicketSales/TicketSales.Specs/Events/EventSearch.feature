@@ -3,24 +3,22 @@
 	As a visitor
 	I want to search for events by name and location
 
+Background: 
+	Given I have an event called 'Party In The Park' in 'Stoke'
+	And I am on the search events page
+
 @Search
 Scenario: Search By Location
-	Given I have an event called <name>
-	And the event is in <location>
-	When I search for <location>
-	Then the results should show an event called <name>
-
-Scenario: Search By Name
-	Given I have an event called <name>
-	When I search for <name>
-	Then the results should show an event called <name>
+	Given I am on the search events page
+	When I search for Stoke
+	Then the results should show an event in Stoke
 
 Scenario: No Results
-	Given I have no events
-	When I search for <name>
-	Then the results should show a message saying 'no results'
+	Given I am on the search events page
+	When I search for NoEventHere
+	Then I should see a message saying 'no results'
 
 Scenario: Error
-	Given the search service is broken
-	When I search for <name>
+	Given the search is broken
+	When I search for Anything
 	Then the results should show a message saying 'a problem occurred, try again'
