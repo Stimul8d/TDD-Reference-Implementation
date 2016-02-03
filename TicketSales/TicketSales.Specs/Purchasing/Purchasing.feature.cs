@@ -17,20 +17,18 @@ namespace TicketSales.Specs.Purchasing
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("TechTalk.SpecFlow", "2.0.0.0")]
     [System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    public partial class PurchasingFeature : Xunit.IClassFixture<PurchasingFeature.FixtureData>, System.IDisposable
+    [NUnit.Framework.TestFixtureAttribute()]
+    [NUnit.Framework.DescriptionAttribute("Purchasing")]
+    public partial class PurchasingFeature
     {
         
-        private static TechTalk.SpecFlow.ITestRunner testRunner;
+        private TechTalk.SpecFlow.ITestRunner testRunner;
         
 #line 1 "Purchasing.feature"
 #line hidden
         
-        public PurchasingFeature()
-        {
-            this.TestInitialize();
-        }
-        
-        public static void FeatureSetup()
+        [NUnit.Framework.TestFixtureSetUpAttribute()]
+        public virtual void FeatureSetup()
         {
             testRunner = TechTalk.SpecFlow.TestRunnerManager.GetTestRunner();
             TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "Purchasing", "\tIn order to go to events I\'m interested in\r\n\tAs a Customer\r\n\tI want to buy ticke" +
@@ -38,16 +36,19 @@ namespace TicketSales.Specs.Purchasing
             testRunner.OnFeatureStart(featureInfo);
         }
         
-        public static void FeatureTearDown()
+        [NUnit.Framework.TestFixtureTearDownAttribute()]
+        public virtual void FeatureTearDown()
         {
             testRunner.OnFeatureEnd();
             testRunner = null;
         }
         
+        [NUnit.Framework.SetUpAttribute()]
         public virtual void TestInitialize()
         {
         }
         
+        [NUnit.Framework.TearDownAttribute()]
         public virtual void ScenarioTearDown()
         {
             testRunner.OnScenarioEnd();
@@ -63,19 +64,9 @@ namespace TicketSales.Specs.Purchasing
             testRunner.CollectScenarioErrors();
         }
         
-        public virtual void SetFixture(PurchasingFeature.FixtureData fixtureData)
-        {
-        }
-        
-        void System.IDisposable.Dispose()
-        {
-            this.ScenarioTearDown();
-        }
-        
-        [Xunit.FactAttribute()]
-        [Xunit.TraitAttribute("FeatureTitle", "Purchasing")]
-        [Xunit.TraitAttribute("Description", "Purchase Ticket")]
-        [Xunit.TraitAttribute("Category", "Purchasing")]
+        [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("Purchase Ticket")]
+        [NUnit.Framework.CategoryAttribute("Purchasing")]
         public virtual void PurchaseTicket()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Purchase Ticket", new string[] {
@@ -100,9 +91,8 @@ this.ScenarioSetup(scenarioInfo);
             this.ScenarioCleanup();
         }
         
-        [Xunit.FactAttribute()]
-        [Xunit.TraitAttribute("FeatureTitle", "Purchasing")]
-        [Xunit.TraitAttribute("Description", "Not enough inventory")]
+        [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("Not enough inventory")]
         public virtual void NotEnoughInventory()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Not enough inventory", ((string[])(null)));
@@ -122,9 +112,8 @@ this.ScenarioSetup(scenarioInfo);
             this.ScenarioCleanup();
         }
         
-        [Xunit.FactAttribute()]
-        [Xunit.TraitAttribute("FeatureTitle", "Purchasing")]
-        [Xunit.TraitAttribute("Description", "Error")]
+        [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("Error")]
         public virtual void Error()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Error", ((string[])(null)));
@@ -142,22 +131,6 @@ this.ScenarioSetup(scenarioInfo);
  testRunner.And("I should see a message saying \'oops, something went wrong\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             this.ScenarioCleanup();
-        }
-        
-        [System.CodeDom.Compiler.GeneratedCodeAttribute("TechTalk.SpecFlow", "2.0.0.0")]
-        [System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-        public class FixtureData : System.IDisposable
-        {
-            
-            public FixtureData()
-            {
-                PurchasingFeature.FeatureSetup();
-            }
-            
-            void System.IDisposable.Dispose()
-            {
-                PurchasingFeature.FeatureTearDown();
-            }
         }
     }
 }
