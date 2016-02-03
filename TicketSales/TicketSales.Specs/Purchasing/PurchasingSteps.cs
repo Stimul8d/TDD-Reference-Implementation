@@ -2,8 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
+using FluentAssertions;
 using TechTalk.SpecFlow;
+using TicketSales.Infrastructure.DomainEvents;
 using TicketSales.Purchasing.Domain;
+using TicketSales.Purchasing.Domain.Events;
 using TicketSales.Purchasing.Queries;
 using TicketSales.Web.Controllers;
 using TicketSales.Web.ViewModels.BuyTickets;
@@ -18,6 +21,12 @@ namespace TicketSales.Specs.Purchasing
         private int ticketsInBasket;
         private int eventId;
         private ActionResult result;
+        private bool ticketsPurchased;
+
+        public PurchasingSteps()
+        {
+            DomainEvents.Register<TicketsPurchasedEvent>(e =>ticketsPurchased = true);
+        }
 
         [Given(@"there are (.*) tickets left for event (.*)")]
         public void GivenThereAreTicketsLeftForEvent(int numOfTickets, int eventId)
@@ -41,18 +50,18 @@ namespace TicketSales.Specs.Purchasing
         [When(@"I press buy")]
         public void WhenIPressBuy()
         {
-            var request = new BuyTicketsRequestViewModel {EventId = eventId, NumberOfTicketsRequired = ticketsInBasket};
+            var request = new BuyTicketsRequestViewModel { EventId = eventId, NumberOfTicketsRequired = ticketsInBasket };
             result = controller.Buy(request);
         }
 
         [Then(@"the order should be put through")]
         public void ThenTheOrderShouldBePutThrough()
         {
-            ScenarioContext.Current.Pending();
+            ticketsPurchased.Should().BeTrue();
         }
 
         [Then(@"there should be (.*) tickets left")]
-        public void ThenThereShouldBeTicketsLeft(int p0)
+        public void ThenThereShouldBeTicketsLeft(int numberofTicketsLeft)
         {
             ScenarioContext.Current.Pending();
         }

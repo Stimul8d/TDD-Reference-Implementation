@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{FA4DE66F-F011-4E9B-8C8D-8EAF05B4AF42}</ProjectGuid>
+    <ProjectGuid>{6932B012-5560-4CDD-8C6F-00884148E8B9}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>TicketSales.Purchasing</RootNamespace>
-    <AssemblyName>TicketSales.Purchasing</AssemblyName>
+    <RootNamespace>TicketSales.Data</RootNamespace>
+    <AssemblyName>TicketSales.Data</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -40,11 +40,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Domain\Events\TicketsPurchasedEvent.cs" />
-    <Compile Include="Domain\Handlers\UpdateInventoryHandler.cs" />
-    <Compile Include="Domain\Ticket.cs" />
+    <Compile Include="Purchasing\AvailableTicketsRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Queries\AvailableTicketsQuery.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\TicketSales.Infrastructure\TicketSales.Infrastructure.csproj">
@@ -52,7 +49,6 @@
       <Name>TicketSales.Infrastructure</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

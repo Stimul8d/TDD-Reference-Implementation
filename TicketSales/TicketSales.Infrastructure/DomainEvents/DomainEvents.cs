@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using StructureMap;
 
 namespace TicketSales.Infrastructure.DomainEvents
 {
@@ -29,10 +30,10 @@ namespace TicketSales.Infrastructure.DomainEvents
         public static void Raise<T>(T args) where T : IDomainEvent
         {
             if (Container != null)
-                foreach (var handler in Container.ResolveAll<Handles<T>>())
+                foreach (var handler in Container.GetAllInstances<IHandle<T>>())
                     handler.Handle(args);
 
-            if(actions != null)
+            if (actions == null) return;
             foreach (var action in actions)
                 if (action is Action<T>)
                     ((Action<T>)action)(args);
