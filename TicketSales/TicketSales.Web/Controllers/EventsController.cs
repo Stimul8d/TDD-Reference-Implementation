@@ -20,7 +20,9 @@ namespace TicketSales.Web.Controllers
         public ActionResult Search(SearchRequestViewModel searchViewModel)
         {
             var events = eventQuery.Execute(searchViewModel.Term);
-            return View(new SearchResponseViewModel(events));
+            var message = "Search Results...";
+            if (!events.Any()) message = "No Results";
+            return View(new SearchResponseViewModel(events, message));
         }
     }
 }

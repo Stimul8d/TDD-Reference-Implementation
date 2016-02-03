@@ -15,19 +15,24 @@ namespace TicketSales.Specs.Events
     {
         private EventsController controller;
         private ActionResult result;
-        private Event testEvent;
+        private List<Event> testEvents = new List<Event>();
 
         [Given(@"I have an event called '(.*)' in '(.*)'")]
         public void GivenIHaveAnEventCalledIn(string name, string location)
         {
-            testEvent = new Event(name, location);
+            testEvents.Add(new Event(name, location));
+        }
+
+        [Given(@"There are no events")]
+        public void GivenThereAreNoEvents()
+        {
+           //NO IMPL NEEDED
         }
 
         [Given(@"I am on the search events page")]
         public void GivenIAmOnTheSearchEventsPage()
         {
-            var events = new List<Event> {testEvent};
-            controller = new EventsController(new EventsSearch(events));
+            controller = new EventsController(new EventsSearch(testEvents));
         }
 
         [Given(@"the search is broken")]
@@ -53,7 +58,7 @@ namespace TicketSales.Specs.Events
         public void ThenIShouldSeeAMessageSaying(string message)
         {
             var model = result.Model<SearchResponseViewModel>();
-            //TODO: THIS NEXT
+            model.Message.Should().Be(message);
         }
 
         [Then(@"the results should show a message saying '(.*)'")]

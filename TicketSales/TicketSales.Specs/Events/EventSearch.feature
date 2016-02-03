@@ -9,14 +9,12 @@ Background:
 
 @Search
 Scenario: Search By Location
-	Given I am on the search events page
 	When I search for Stoke
 	Then the results should show an event in Stoke
 
 Scenario: No Results
-	Given I am on the search events page
-	When I search for NoEventHere
-	Then I should see a message saying 'no results'
+	When I search for SomethingElse
+	Then I should see a message saying 'No Results'
 
 Scenario: Error
 	Given the search is broken
