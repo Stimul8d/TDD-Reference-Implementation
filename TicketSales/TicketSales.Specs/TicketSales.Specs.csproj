@@ -64,12 +64,14 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>EventSearch.feature</DependentUpon>
     </Compile>
+    <Compile Include="Events\EventSearchSteps.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Purchasing\Purchasing.feature.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Purchasing.feature</DependentUpon>
     </Compile>
+    <Compile Include="Purchasing\PurchasingSteps.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
