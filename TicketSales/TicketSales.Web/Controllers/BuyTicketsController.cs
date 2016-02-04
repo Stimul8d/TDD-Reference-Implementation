@@ -36,7 +36,7 @@ namespace TicketSales.Web.Controllers
 
         public ActionResult Confirmation()
         {
-            return null;
+            return View(new ConfirmationViewModel {Message="Thanks!!"});
         }
     }
 }

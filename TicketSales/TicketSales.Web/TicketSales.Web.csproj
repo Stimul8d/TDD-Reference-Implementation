@@ -158,6 +158,8 @@
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModels\BuyTickets\BuyTicketsRequestViewModel.cs" />
+    <Compile Include="ViewModels\BuyTickets\ConfirmationViewModel.cs" />
+    <Compile Include="ViewModels\IHaveAMessage.cs" />
     <Compile Include="ViewModels\Search\SearchedEventViewModel.cs" />
     <Compile Include="ViewModels\Search\SearchRequestViewModel.cs" />
     <Compile Include="ViewModels\Search\SearchResponseViewModel.cs" />
@@ -199,6 +201,7 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Events\Search.cshtml" />
     <Content Include="Views\BuyTickets\Index.cshtml" />
+    <Content Include="Views\BuyTickets\Confirmation.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Models\" />

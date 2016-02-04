@@ -4,7 +4,7 @@
 	I want to buy tickets
 
 Background: 
-	Given there are 3 tickets left for event 42
+	Given there are 4 tickets left for event 42
 	And I am on the Buy Ticket Page
 
 @Purchasing
@@ -12,15 +12,15 @@ Scenario: Purchase Ticket
 	And I have chosen 3 tickets
 	When I press buy
 	Then the order should be put through
-	And there should be 0 tickets left
-	And I should see a message saying thankyou
-	And I should receive an email confirming the details
+	And there should be 1 tickets left
+	And I should be redirected to the confirmation page
+	And on the confirmation page I should see a message saying 'Thanks!!' 
 
 Scenario: Not enough inventory
 	And I have chosen 6 tickets
 	When I press buy
-	Then inventory should not be updated
-	And I should see a message saying 'hard luck loser'
+	Then there should be 4 tickets left
+	And I should be redirected to the cantfirmation page
 
 Scenario: Error
 	And purchasing is broken

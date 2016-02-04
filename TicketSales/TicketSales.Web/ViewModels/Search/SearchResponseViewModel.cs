@@ -6,7 +6,7 @@ using TicketSales.Events.Domain;
 
 namespace TicketSales.Web.ViewModels.Search
 {
-    public class SearchResponseViewModel
+    public class SearchResponseViewModel : IHaveAMessage
     {
         private readonly IEnumerable<SearchedEventViewModel> events;
         private readonly string message;

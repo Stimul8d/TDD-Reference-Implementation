@@ -9,6 +9,7 @@ using TicketSales.Purchasing.Domain;
 using TicketSales.Purchasing.Domain.Events;
 using TicketSales.Purchasing.Queries;
 using TicketSales.Web.Controllers;
+using TicketSales.Web.ViewModels;
 using TicketSales.Web.ViewModels.BuyTickets;
 
 namespace TicketSales.Specs.Purchasing
@@ -22,16 +23,23 @@ namespace TicketSales.Specs.Purchasing
         private int eventId;
         private ActionResult result;
         private bool ticketsPurchased;
+        private int ticketsLeft;
 
         public PurchasingSteps()
         {
-            DomainEvents.Register<TicketsPurchasedEvent>(e =>ticketsPurchased = true);
+            DomainEvents.Register<TicketsPurchasedEvent>(e =>
+            {
+                ticketsPurchased = true;
+                ticketsLeft = e.NumberOfTickets;
+                if (ticketsLeft < 0) ticketsLeft = 0;
+            });
         }
 
         [Given(@"there are (.*) tickets left for event (.*)")]
         public void GivenThereAreTicketsLeftForEvent(int numOfTickets, int eventId)
         {
             this.eventId = eventId;
+            this.ticketsLeft = numOfTickets;
             tickets = Enumerable.Repeat(new Ticket(eventId), numOfTickets);
         }
 
@@ -61,27 +69,28 @@ namespace TicketSales.Specs.Purchasing
         }
 
         [Then(@"there should be (.*) tickets left")]
-        public void ThenThereShouldBeTicketsLeft(int numberofTicketsLeft)
+        public void ThenThereShouldBeTicketsLeft(int expectedNumberOfTicketsLeft)
         {
-            ScenarioContext.Current.Pending();
+            ticketsLeft.Should().Be(expectedNumberOfTicketsLeft);
         }
 
-        [Then(@"I should see a message saying thankyou")]
-        public void ThenIShouldSeeAMessageSayingThankyou()
+        [Then(@"I should be redirected to the confirmation page")]
+        public void ThenIShouldBeRedirectedToTheConfirmationPage()
         {
-            ScenarioContext.Current.Pending();
+            (result as RedirectToRouteResult).RouteValues["action"].Should().Be("Confirmation");
         }
 
-        [Then(@"I should receive an email confirming the details")]
-        public void ThenIShouldReceiveAnEmailConfirmingTheDetails()
+        [Then(@"I should be redirected to the cantfirmation page")]
+        public void ThenIShouldBeRedirectedToTheCantfirmationPage()
         {
-            ScenarioContext.Current.Pending();
+            (result as RedirectToRouteResult).RouteValues["action"].Should().Be("NotEnoughLeft");
         }
 
-        [Then(@"inventory should not be updated")]
-        public void ThenInventoryShouldNotBeUpdated()
+        [Then(@"on the confirmation page I should see a message saying '(.*)'")]
+        public void ThenOnTheConfirmationPageIShouldSeeAMessageSaying(string message)
         {
-            ScenarioContext.Current.Pending();
+            var confirmationResult = controller.Confirmation();
+            confirmationResult.Model<IHaveAMessage>().Message.Should().Be(message);
         }
 
         [Given(@"purchasing is broken")]
