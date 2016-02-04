@@ -28,6 +28,8 @@ namespace TicketSales.Purchasing.Domain.Handlers
                 .Take(purchase.NumberOfTickets);
 
             foreach (var ticket in ticketsSold) tickets.Remove(ticket);
+
+            DomainEvents.Raise(new InventoryUpdatedEvent(tickets));
         }
     }
 }

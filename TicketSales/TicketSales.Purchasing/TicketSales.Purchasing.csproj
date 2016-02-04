@@ -40,6 +40,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Domain\Events\InventoryUpdatedEvent.cs" />
     <Compile Include="Domain\Events\TicketsPurchasedEvent.cs" />
     <Compile Include="Domain\Handlers\UpdateInventoryHandler.cs" />
     <Compile Include="Domain\Ticket.cs" />

@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using FluentAssertions;
+using StructureMap;
 using TechTalk.SpecFlow;
 using TicketSales.Infrastructure.DomainEvents;
 using TicketSales.Purchasing.Domain;
 using TicketSales.Purchasing.Domain.Events;
 using TicketSales.Purchasing.Queries;
 using TicketSales.Web.Controllers;
+using TicketSales.Web.DependencyResolution;
 using TicketSales.Web.ViewModels;
 using TicketSales.Web.ViewModels.BuyTickets;
 
@@ -24,22 +26,25 @@ namespace TicketSales.Specs.Purchasing
         private ActionResult result;
         private bool ticketsPurchased;
         private int ticketsLeft;
+        private IContainer container;
 
         public PurchasingSteps()
         {
-            DomainEvents.Register<TicketsPurchasedEvent>(e =>
-            {
-                ticketsPurchased = true;
-                ticketsLeft = e.NumberOfTickets;
-                if (ticketsLeft < 0) ticketsLeft = 0;
-            });
+            container = IoC.Initialize();
+
+            now i need to set up the bindings in defaultregistry to make queries singleton etc...
+
+            DomainEvents.Register<TicketsPurchasedEvent>(e => ticketsPurchased = true);
+
+            DomainEvents.Register<InventoryUpdatedEvent>(e => 
+                ticketsLeft = e.TicketsLeft.Count());
         }
 
         [Given(@"there are (.*) tickets left for event (.*)")]
         public void GivenThereAreTicketsLeftForEvent(int numOfTickets, int eventId)
         {
             this.eventId = eventId;
-            this.ticketsLeft = numOfTickets;
+            ticketsLeft = numOfTickets;
             tickets = Enumerable.Repeat(new Ticket(eventId), numOfTickets);
         }
 
