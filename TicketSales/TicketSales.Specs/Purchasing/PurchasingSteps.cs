@@ -8,6 +8,7 @@ using TechTalk.SpecFlow;
 using TicketSales.Infrastructure.DomainEvents;
 using TicketSales.Purchasing.Domain;
 using TicketSales.Purchasing.Domain.Events;
+using TicketSales.Purchasing.Domain.Handlers;
 using TicketSales.Purchasing.Queries;
 using TicketSales.Web.Controllers;
 using TicketSales.Web.DependencyResolution;
@@ -17,27 +18,20 @@ using TicketSales.Web.ViewModels.BuyTickets;
 namespace TicketSales.Specs.Purchasing
 {
     [Binding]
-    public class PurchasingSteps
+    public class PurchasingSteps : IntegrationTestBase
     {
         private BuyTicketsController controller;
         private IEnumerable<Ticket> tickets;
         private int ticketsInBasket;
         private int eventId;
         private ActionResult result;
-        private bool ticketsPurchased;
         private int ticketsLeft;
-        private IContainer container;
+        private IEnumerable<IHandle<TicketsPurchasedEvent>> ticketsPurchasedHandlers;
 
         public PurchasingSteps()
         {
-            container = IoC.Initialize();
-
-            now i need to set up the bindings in defaultregistry to make queries singleton etc...
-
-            DomainEvents.Register<TicketsPurchasedEvent>(e => ticketsPurchased = true);
-
-            DomainEvents.Register<InventoryUpdatedEvent>(e => 
-                ticketsLeft = e.TicketsLeft.Count());
+            //now i need to set up the bindings in defaultregistry to make queries singleton etc...
+            ticketsPurchasedHandlers = Container.GetAllInstances<IHandle<TicketsPurchasedEvent>>();
         }
 
         [Given(@"there are (.*) tickets left for event (.*)")]
@@ -70,12 +64,16 @@ namespace TicketSales.Specs.Purchasing
         [Then(@"the order should be put through")]
         public void ThenTheOrderShouldBePutThrough()
         {
-            ticketsPurchased.Should().BeTrue();
+            ticketsPurchasedHandlers
+                .Any(h => h is TicketsPurchasedUpdateInventoryHandler)
+                .Should().BeTrue();
         }
 
         [Then(@"there should be (.*) tickets left")]
         public void ThenThereShouldBeTicketsLeft(int expectedNumberOfTicketsLeft)
         {
+            var handlers = Container.GetAllInstances<IHandle<InventoryUpdatedEvent>>();
+
             ticketsLeft.Should().Be(expectedNumberOfTicketsLeft);
         }
 
@@ -97,6 +95,13 @@ namespace TicketSales.Specs.Purchasing
             var confirmationResult = controller.Confirmation();
             confirmationResult.Model<IHaveAMessage>().Message.Should().Be(message);
         }
+
+        [Then(@"I should be sent an email confirmation")]
+        public void ThenIShouldBeSentAnEmailConfirmation()
+        {
+            
+        }
+
 
         [Given(@"purchasing is broken")]
         public void GivenPurchasingIsBroken()

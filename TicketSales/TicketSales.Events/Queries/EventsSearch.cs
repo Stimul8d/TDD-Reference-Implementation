@@ -14,6 +14,7 @@ namespace TicketSales.Events.Queries
 
         public EventsSearch(IEnumerable<Event> events)
         {
+            need to make an events repo of some sort
             this.events = events;
         }
 

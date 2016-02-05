@@ -14,7 +14,8 @@ Scenario: Purchase Ticket
 	Then the order should be put through
 	And there should be 1 tickets left
 	And I should be redirected to the confirmation page
-	And on the confirmation page I should see a message saying 'Thanks!!' 
+	And on the confirmation page I should see a message saying 'Thanks!!'
+	And I should be sent an email confirmation
 
 Scenario: Not enough inventory
 	And I have chosen 6 tickets

@@ -2,23 +2,24 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using TicketSales.Infrastructure.Data;
 using TicketSales.Infrastructure.DomainEvents;
 using TicketSales.Purchasing.Domain.Events;
 
 namespace TicketSales.Purchasing.Domain.Handlers
 {
-    public class UpdateInventoryHandler : IHandle<TicketsPurchasedEvent>
+    public class TicketsPurchasedUpdateInventoryHandler : IHandle<TicketsPurchasedEvent>
     {
-        private List<Ticket> tickets;
+        private readonly List<Ticket> tickets;
 
         public IEnumerable<Ticket> Tickets
         {
             get { return tickets; }
         }
 
-        public UpdateInventoryHandler(IEnumerable<Ticket> tickets)
+        public TicketsPurchasedUpdateInventoryHandler(IRepository<Ticket> ticketRepo)
         {
-            this.tickets = tickets.ToList();
+            tickets = ticketRepo.All().ToList();
         }
 
         public void Handle(TicketsPurchasedEvent purchase)

@@ -15,21 +15,34 @@
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace TicketSales.Web.DependencyResolution {
+using TicketSales.Infrastructure.DomainEvents;
+using TicketSales.Purchasing.Domain.Events;
+using TicketSales.Purchasing.Domain.Handlers;
+
+namespace TicketSales.Web.DependencyResolution
+{
     using StructureMap.Configuration.DSL;
     using StructureMap.Graph;
-	
-    public class DefaultRegistry : Registry {
+
+    public class DefaultRegistry : Registry
+    {
         #region Constructors and Destructors
 
-        public DefaultRegistry() {
+        public DefaultRegistry()
+        {
             Scan(
-                scan => {
+                scan =>
+                {
                     scan.TheCallingAssembly();
                     scan.WithDefaultConventions();
-					scan.With(new ControllerConvention());
+                    scan.With(new ControllerConvention());
                 });
-            //For<IExample>().Use<Example>();
+
+            For<IHandle<TicketsPurchasedEvent>>()
+                .Use<TicketsPurchasedUpdateInventoryHandler>();
+
+            For<IHandle<TicketsPurchasedEvent>>()
+                .Use<TicketsPurchasedEmailConfirmationHandler>();
         }
 
         #endregion

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using TicketSales.Infrastructure;
+using TicketSales.Infrastructure.Data;
 using TicketSales.Purchasing.Domain;
 
 namespace TicketSales.Purchasing.Queries
@@ -10,9 +11,9 @@ namespace TicketSales.Purchasing.Queries
     {
         private readonly IEnumerable<Ticket> tickets;
 
-        public AvailableTicketsQuery(IEnumerable<Ticket> tickets)
+        public AvailableTicketsQuery(IRepository<Ticket> ticketRepo)
         {
-            this.tickets = tickets;
+            this.tickets = ticketRepo.All().ToList();
         }
 
         public IEnumerable<Ticket> Execute(int eventId = 0)
