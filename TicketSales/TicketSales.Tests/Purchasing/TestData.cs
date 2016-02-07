@@ -17,6 +17,8 @@ namespace TicketSales.Tests.Purchasing
         public const int TicketId = 42;
         public const string EventName = "Event Name";
         public const int UserId = 10;
+        public const int EventId = 1337;
+
 
         public TestData() : base(new Fixture().Customize(new AutoNSubstituteCustomization()))
         {
@@ -26,10 +28,15 @@ namespace TicketSales.Tests.Purchasing
             ticketRepo.All().Returns(tickets);
             Fixture.Inject(ticketRepo);
 
-            var events = new List<Event> { new Event(1, EventName, "Stoke") };
+            var events = new List<Event> { new Event(EventId, EventName, "Stoke") };
             var eventRepo = Substitute.For<IGetAll<Event>>();
             eventRepo.All().Returns(events);
             Fixture.Inject(eventRepo);
+
+            var orders = new List<Order> { new Order(Guid.NewGuid(), UserId, EventId, 3) };
+            var orderRepo = Substitute.For<IGetAll<Order>>();
+            orderRepo.All().Returns(orders);
+            Fixture.Inject(orderRepo);
 
             Database.UseMockAdapter(new InMemoryAdapter());
 
