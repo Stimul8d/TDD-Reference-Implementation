@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Data.Odbc;
 using System.Linq;
 using TicketSales.Infrastructure.Data;
 using TicketSales.Infrastructure.DomainEvents;

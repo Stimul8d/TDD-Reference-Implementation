@@ -1,5 +1,4 @@
-﻿using System;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using TicketSales.Infrastructure.DomainEvents;
 
 namespace TicketSales.Purchasing.Domain.Events
@@ -12,8 +11,7 @@ namespace TicketSales.Purchasing.Domain.Events
 
         public int UserId
         {
-            get { return userId; }
-            
+            get { return userId; }   
         }
 
         public int EventId
