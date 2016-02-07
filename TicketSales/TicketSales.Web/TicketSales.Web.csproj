@@ -215,6 +215,10 @@
     <Content Include="Scripts\jquery-1.10.2.min.map" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\TicketSales.Events.Data\TicketSales.Events.Data.csproj">
+      <Project>{05661ad6-b13d-4894-a1e3-90014c6c30f6}</Project>
+      <Name>TicketSales.Events.Data</Name>
+    </ProjectReference>
     <ProjectReference Include="..\TicketSales.Events\TicketSales.Events.csproj">
       <Project>{6BD968D8-020F-4E73-9E4D-86ED1DABA9D5}</Project>
       <Name>TicketSales.Events</Name>
@@ -222,6 +226,10 @@
     <ProjectReference Include="..\TicketSales.Infrastructure\TicketSales.Infrastructure.csproj">
       <Project>{5DAC6CDB-F0B2-4727-97D5-E3AB1476B0D1}</Project>
       <Name>TicketSales.Infrastructure</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TicketSales.Purchasing.Data\TicketSales.Purchasing.Data.csproj">
+      <Project>{eab6b754-0018-4846-8504-699c217d4a87}</Project>
+      <Name>TicketSales.Purchasing.Data</Name>
     </ProjectReference>
     <ProjectReference Include="..\TicketSales.Purchasing\TicketSales.Purchasing.csproj">
       <Project>{fa4de66f-f011-4e9b-8c8d-8eaf05b4af42}</Project>

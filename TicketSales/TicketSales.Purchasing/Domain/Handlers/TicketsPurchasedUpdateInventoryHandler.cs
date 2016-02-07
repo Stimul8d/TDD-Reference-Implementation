@@ -10,27 +10,23 @@ namespace TicketSales.Purchasing.Domain.Handlers
 {
     public class TicketsPurchasedUpdateInventoryHandler : IHandle<TicketsPurchasedEvent>
     {
-        private readonly List<Ticket> tickets;
-
-        public IEnumerable<Ticket> Tickets
-        {
-            get { return tickets; }
-        }
+        private IRepository<Ticket> ticketRepo;
 
         public TicketsPurchasedUpdateInventoryHandler(IRepository<Ticket> ticketRepo)
         {
-            tickets = ticketRepo.All().ToList();
+            this.ticketRepo = ticketRepo;
         }
 
         public void Handle(TicketsPurchasedEvent purchase)
         {
-            var ticketsSold = tickets
+            var ticketsSold = ticketRepo.All()
                 .Where(t => purchase.EventId == t.EventId)
-                .Take(purchase.NumberOfTickets);
+                .Take(purchase.NumberOfTickets).ToList();
 
-            foreach (var ticket in ticketsSold) tickets.Remove(ticket);
+            var notEnoughInventory = purchase.NumberOfTickets > ticketsSold.Count;
+            if (notEnoughInventory) return;
 
-            DomainEvents.Raise(new InventoryUpdatedEvent(tickets));
+            foreach (var ticket in ticketsSold) ticketRepo.Delete(ticket);
         }
     }
 }

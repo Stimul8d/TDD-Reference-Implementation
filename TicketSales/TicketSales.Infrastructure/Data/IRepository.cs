@@ -2,8 +2,9 @@
 
 namespace TicketSales.Infrastructure.Data
 {
-    public interface IRepository<out T>
+    public interface IRepository<T>
     {
         IEnumerable<T> All();
+        void Delete(T item);
     }
 }

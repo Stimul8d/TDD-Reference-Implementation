@@ -1,4 +1,5 @@
-﻿using TicketSales.Infrastructure.DomainEvents;
+﻿using System.Diagnostics;
+using TicketSales.Infrastructure.DomainEvents;
 
 namespace TicketSales.Purchasing.Domain.Events
 {
@@ -17,6 +18,7 @@ namespace TicketSales.Purchasing.Domain.Events
             get { return numberOfTickets; }
         }
 
+        [DebuggerStepThrough]
         public TicketsPurchasedEvent(int eventId, int numberOfTickets)
         {
             this.numberOfTickets = numberOfTickets;

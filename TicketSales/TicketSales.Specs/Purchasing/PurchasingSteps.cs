@@ -3,15 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using FluentAssertions;
-using StructureMap;
+using NSubstitute;
+using Simple.Data;
 using TechTalk.SpecFlow;
+using TicketSales.Infrastructure.Data;
 using TicketSales.Infrastructure.DomainEvents;
 using TicketSales.Purchasing.Domain;
 using TicketSales.Purchasing.Domain.Events;
 using TicketSales.Purchasing.Domain.Handlers;
-using TicketSales.Purchasing.Queries;
 using TicketSales.Web.Controllers;
-using TicketSales.Web.DependencyResolution;
 using TicketSales.Web.ViewModels;
 using TicketSales.Web.ViewModels.BuyTickets;
 
@@ -21,7 +21,6 @@ namespace TicketSales.Specs.Purchasing
     public class PurchasingSteps : IntegrationTestBase
     {
         private BuyTicketsController controller;
-        private IEnumerable<Ticket> tickets;
         private int ticketsInBasket;
         private int eventId;
         private ActionResult result;
@@ -30,7 +29,6 @@ namespace TicketSales.Specs.Purchasing
 
         public PurchasingSteps()
         {
-            //now i need to set up the bindings in defaultregistry to make queries singleton etc...
             ticketsPurchasedHandlers = Container.GetAllInstances<IHandle<TicketsPurchasedEvent>>();
         }
 
@@ -39,13 +37,21 @@ namespace TicketSales.Specs.Purchasing
         {
             this.eventId = eventId;
             ticketsLeft = numOfTickets;
-            tickets = Enumerable.Repeat(new Ticket(eventId), numOfTickets);
+
+            var ad = new InMemoryAdapter();
+            ad.SetKeyColumn("Tickets", "EventId");
+            Database.UseMockAdapter(ad);
+            var db = Database.Open();
+            for (var i = 0; i < numOfTickets; i++)
+            {
+                db.Tickets.Insert(Id: Guid.NewGuid(), EventId: eventId);
+            }
         }
 
         [Given(@"I am on the Buy Ticket Page")]
         public void GivenIAmOnTheBuyTicketPage()
         {
-            controller = new BuyTicketsController(new AvailableTicketsQuery(tickets));
+            controller = Container.GetInstance<BuyTicketsController>();
         }
 
         [Given(@"I have chosen (.*) tickets")]
@@ -72,9 +78,8 @@ namespace TicketSales.Specs.Purchasing
         [Then(@"there should be (.*) tickets left")]
         public void ThenThereShouldBeTicketsLeft(int expectedNumberOfTicketsLeft)
         {
-            var handlers = Container.GetAllInstances<IHandle<InventoryUpdatedEvent>>();
-
-            ticketsLeft.Should().Be(expectedNumberOfTicketsLeft);
+            var repository = Container.GetInstance<IRepository<Ticket>>();
+            repository.All().Count().Should().Be(expectedNumberOfTicketsLeft);
         }
 
         [Then(@"I should be redirected to the confirmation page")]
@@ -99,7 +104,7 @@ namespace TicketSales.Specs.Purchasing
         [Then(@"I should be sent an email confirmation")]
         public void ThenIShouldBeSentAnEmailConfirmation()
         {
-            
+
         }
 
 

@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace TicketSales.Purchasing.Domain
 {
+    [DebuggerDisplay("ID:{Id}, EVENTID:{EventId}")]
     public class Ticket
     {
         private readonly int eventId;
@@ -21,10 +23,10 @@ namespace TicketSales.Purchasing.Domain
             get { return id; }
         }
 
-        public Ticket(int eventId)
+        public Ticket(Guid id,int eventId)
         {
             this.eventId = eventId;
-            id = Guid.NewGuid();
+            this.id = id;
         }
 
     }

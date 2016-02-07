@@ -83,7 +83,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Events\EventsSearchTests.cs" />
+    <Compile Include="Events\EventsQueryTests.cs" />
     <Compile Include="Events\SearchResponseViewModelTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Purchasing\AvailableTicketsQueryTests.cs" />

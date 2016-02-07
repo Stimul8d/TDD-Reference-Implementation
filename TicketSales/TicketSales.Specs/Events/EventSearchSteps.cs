@@ -4,6 +4,8 @@ using System.Linq;
 using System.Web.Mvc;
 using FluentAssertions;
 using NSubstitute;
+using Simple.Data;
+using StructureMap;
 using TechTalk.SpecFlow;
 using TicketSales.Events.Domain;
 using TicketSales.Events.Queries;
@@ -14,22 +16,24 @@ using TicketSales.Web.ViewModels.Search;
 namespace TicketSales.Specs.Events
 {
     [Binding]
-    public class EventSearchSteps
+    public class EventSearchSteps : IntegrationTestBase
     {
         private EventsController controller;
         private ActionResult result;
-        private List<Event> testEvents = new List<Event>();
 
         [Given(@"I have an event called '(.*)' in '(.*)'")]
         public void GivenIHaveAnEventCalledIn(string name, string location)
         {
-            testEvents.Add(new Event(name, location));
+            //EventRepository.All().Returns(new List<Event> {new Event(name, location)});
+            Database.UseMockAdapter(new InMemoryAdapter());
+            var db = Database.Open();
+            db.Events.Insert(Name: name, Location: location);
         }
 
         [Given(@"I am on the search events page")]
         public void GivenIAmOnTheSearchEventsPage()
         {
-            controller = new EventsController(new EventsSearch(testEvents));
+            controller = Container.GetInstance<EventsController>();
         }
 
         [Given(@"the search is broken")]

@@ -15,9 +15,17 @@
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
+using TicketSales.Events.Data;
+using TicketSales.Events.Domain;
+using TicketSales.Events.Queries;
+using TicketSales.Infrastructure;
+using TicketSales.Infrastructure.Data;
 using TicketSales.Infrastructure.DomainEvents;
+using TicketSales.Purchasing.Data;
+using TicketSales.Purchasing.Domain;
 using TicketSales.Purchasing.Domain.Events;
 using TicketSales.Purchasing.Domain.Handlers;
+using TicketSales.Purchasing.Queries;
 
 namespace TicketSales.Web.DependencyResolution
 {
@@ -43,6 +51,13 @@ namespace TicketSales.Web.DependencyResolution
 
             For<IHandle<TicketsPurchasedEvent>>()
                 .Use<TicketsPurchasedEmailConfirmationHandler>();
+
+            For<IQuery<int, Ticket>>().Use<AvailableTicketsQuery>();
+            For<IQuery<string, Event>>().Use<EventsQuery>();
+            
+
+            For<IRepository<Event>>().Use<EventRepository>();
+            For<IRepository<Ticket>>().Use<TicketRepository>();
         }
 
         #endregion
