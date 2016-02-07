@@ -48,9 +48,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Domain\BoxOffice.cs" />
     <Compile Include="Domain\Events\TicketsPurchasedEvent.cs" />
     <Compile Include="Domain\Handlers\TicketsPurchasedEmailConfirmationHandler.cs" />
     <Compile Include="Domain\Handlers\TicketsPurchasedUpdateInventoryHandler.cs" />
+    <Compile Include="Domain\IBoxOffice.cs" />
     <Compile Include="Domain\Order.cs" />
     <Compile Include="Domain\Ticket.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

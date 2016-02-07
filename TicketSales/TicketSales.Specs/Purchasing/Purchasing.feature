@@ -27,5 +27,5 @@ Scenario: Not enough inventory
 Scenario: Error
 	And purchasing is broken
 	When I press buy
-	And I should see a message saying 'oops, something went wrong'
+	Then I should be redirected to the error page
 

@@ -46,6 +46,8 @@ namespace TicketSales.Web.DependencyResolution
                     scan.With(new ControllerConvention());
                 });
 
+            For<IBoxOffice>().Use<BoxOffice>();
+
             For<IHandle<TicketsPurchasedEvent>>()
                 .Use<TicketsPurchasedUpdateInventoryHandler>();
 

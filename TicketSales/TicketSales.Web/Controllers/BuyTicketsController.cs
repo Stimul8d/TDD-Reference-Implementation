@@ -14,10 +14,13 @@ namespace TicketSales.Web.Controllers
 {
     public class BuyTicketsController : Controller
     {
+        private readonly IBoxOffice boxOffice;
         private readonly IQuery<int, Order> ordersQuery;
 
-        public BuyTicketsController(IQuery<int, Order> ordersQuery)
+        public BuyTicketsController(IBoxOffice boxOffice,
+            IQuery<int, Order> ordersQuery)
         {
+            this.boxOffice = boxOffice;
             this.ordersQuery = ordersQuery;
         }
 
@@ -29,15 +32,29 @@ namespace TicketSales.Web.Controllers
         [HttpPost]
         public ActionResult Buy(BuyTicketsRequestViewModel request)
         {
-            var ordersBefore = ordersQuery.Execute(request.UserId).Count();
+            try
+            {
+                var ordersBefore = ordersQuery.Execute(request.UserId).Count();
 
-            DomainEvents.Raise(
-                new TicketsPurchasedEvent(request.UserId,
-                    request.EventId, request.NumberOfTicketsRequired));
+                boxOffice.SellTickets(request.UserId,
+                    request.EventId, request.NumberOfTicketsRequired);
 
-            var ordersAfter = ordersQuery.Execute(request.UserId).Count();
-            var sucessfulOrder = ordersAfter == ordersBefore + 1;
-            return RedirectToAction(sucessfulOrder ? "Confirmation" : "Cantformation");
+                var ordersAfter = ordersQuery.Execute(request.UserId).Count();
+                var sucessfulOrder = ordersAfter == ordersBefore + 1;
+
+                return RedirectToAction(sucessfulOrder ? "Confirmation" : "Cantformation");
+            }
+            catch (Exception)
+            {
+                return RedirectToAction("Error");
+                throw;
+            }
+            
+        }
+
+        public ActionResult Error()
+        {
+            return View();
         }
 
         public ActionResult Confirmation()

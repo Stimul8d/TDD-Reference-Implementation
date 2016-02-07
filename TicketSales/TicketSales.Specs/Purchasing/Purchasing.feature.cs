@@ -140,7 +140,7 @@ this.FeatureBackground();
 #line 29
  testRunner.When("I press buy", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 30
- testRunner.And("I should see a message saying \'oops, something went wrong\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.Then("I should be redirected to the error page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
         }

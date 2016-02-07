@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using FluentAssertions;
+using NSubstitute;
 using TechTalk.SpecFlow;
+using TicketSales.Infrastructure;
 using TicketSales.Infrastructure.Data;
 using TicketSales.Infrastructure.DomainEvents;
 using TicketSales.Purchasing.Domain;
@@ -63,8 +65,12 @@ namespace TicketSales.Specs.Purchasing
         [When(@"I press buy")]
         public void WhenIPressBuy()
         {
-            var request = new BuyTicketsRequestViewModel { UserId = userId,
-                EventId = eventId, NumberOfTicketsRequired = ticketsInBasket };
+            var request = new BuyTicketsRequestViewModel
+            {
+                UserId = userId,
+                EventId = eventId,
+                NumberOfTicketsRequired = ticketsInBasket
+            };
 
             result = controller.Buy(request);
         }
@@ -106,20 +112,31 @@ namespace TicketSales.Specs.Purchasing
         [Then(@"I should be sent an email confirmation")]
         public void ThenIShouldBeSentAnEmailConfirmation()
         {
-
+            ticketsPurchasedHandlers
+                .Any(h => h is TicketsPurchasedEmailConfirmationHandler)
+                .Should().BeTrue();
         }
 
         [Given(@"purchasing is broken")]
         public void GivenPurchasingIsBroken()
         {
-            ScenarioContext.Current.Pending();
+            var boxOffice = Substitute.For<IBoxOffice>();
+            boxOffice.When(b => b.SellTickets(Arg.Any<int>(),
+                Arg.Any<int>(), Arg.Any<int>()))
+                .Do(x => { throw new Exception(); });
+
+            Container.EjectAllInstancesOf<IBoxOffice>();
+            Container.Inject(typeof(IBoxOffice), boxOffice);
+
+            controller = Container.GetInstance<BuyTicketsController>();
         }
 
-        [When(@"I should see a message saying '(.*)'")]
-        public void WhenIShouldSeeAMessageSaying(string p0)
+        [Then(@"I should be redirected to the error page")]
+        public void ThenIShouldBeRedirectedToTheErrorPage()
         {
-            ScenarioContext.Current.Pending();
+            (result as RedirectToRouteResult).RouteValues["action"].Should().Be("Error");
         }
+
 
     }
 }
