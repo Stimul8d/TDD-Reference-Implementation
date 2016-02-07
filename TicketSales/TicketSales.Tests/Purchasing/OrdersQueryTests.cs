@@ -10,7 +10,7 @@ namespace TicketSales.Tests.Purchasing
         [Theory, TestData]
         public void Execute_Returns_Correct_Result(OrdersQuery sut)
         {
-            var result = sut.Execute();
+            var result = sut.Execute(TestData.UserId);
             result.Count().Should().BeGreaterThan(0);//avoid vacuous truth
             result.All(o => o.EventId == TestData.EventId).Should().BeTrue();
         }
