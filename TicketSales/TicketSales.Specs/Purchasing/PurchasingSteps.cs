@@ -109,7 +109,6 @@ namespace TicketSales.Specs.Purchasing
 
         }
 
-
         [Given(@"purchasing is broken")]
         public void GivenPurchasingIsBroken()
         {

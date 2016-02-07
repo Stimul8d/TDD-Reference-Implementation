@@ -24,10 +24,7 @@ namespace TicketSales.Specs.Events
         [Given(@"I have an event called '(.*)' in '(.*)'")]
         public void GivenIHaveAnEventCalledIn(string name, string location)
         {
-            //EventRepository.All().Returns(new List<Event> {new Event(name, location)});
-            Database.UseMockAdapter(new InMemoryAdapter());
-            var db = Database.Open();
-            db.Events.Insert(Name: name, Location: location);
+            Db.Events.Insert(Name: name, Location: location);
         }
 
         [Given(@"I am on the search events page")]
