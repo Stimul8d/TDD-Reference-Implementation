@@ -12,7 +12,7 @@ namespace TicketSales.Events.Data
             dynamic db = Database.Open();
             foreach (var @event in db.Events.All())
             {
-                yield return new Event(@event.Name,@event.Location);
+                yield return new Event(@event.id, @event.Name, @event.Location);
             }
         }
     }

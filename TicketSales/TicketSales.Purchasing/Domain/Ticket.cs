@@ -23,7 +23,7 @@ namespace TicketSales.Purchasing.Domain
             get { return id; }
         }
 
-        public Ticket(Guid id,int eventId)
+        public Ticket(Guid id, int eventId)
         {
             this.eventId = eventId;
             this.id = id;

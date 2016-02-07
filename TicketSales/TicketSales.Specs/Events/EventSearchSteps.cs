@@ -1,14 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using FluentAssertions;
 using NSubstitute;
-using Simple.Data;
-using StructureMap;
 using TechTalk.SpecFlow;
 using TicketSales.Events.Domain;
-using TicketSales.Events.Queries;
 using TicketSales.Infrastructure;
 using TicketSales.Web.Controllers;
 using TicketSales.Web.ViewModels.Search;
@@ -24,7 +20,7 @@ namespace TicketSales.Specs.Events
         [Given(@"I have an event called '(.*)' in '(.*)'")]
         public void GivenIHaveAnEventCalledIn(string name, string location)
         {
-            Db.Events.Insert(Name: name, Location: location);
+            Db.Events.Insert(Id: 1, Name: name, Location: location);
         }
 
         [Given(@"I am on the search events page")]

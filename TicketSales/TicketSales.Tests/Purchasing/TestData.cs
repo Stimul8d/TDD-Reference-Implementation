@@ -26,7 +26,7 @@ namespace TicketSales.Tests.Purchasing
             ticketRepo.All().Returns(tickets);
             Fixture.Inject(ticketRepo);
 
-            var events = new List<Event> {new Event(EventName, "Stoke")};
+            var events = new List<Event> { new Event(1, EventName, "Stoke") };
             var eventRepo = Substitute.For<IGetAll<Event>>();
             eventRepo.All().Returns(events);
             Fixture.Inject(eventRepo);
