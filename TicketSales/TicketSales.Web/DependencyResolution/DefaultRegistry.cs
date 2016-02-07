@@ -54,7 +54,8 @@ namespace TicketSales.Web.DependencyResolution
 
             For<IQuery<int, Ticket>>().Use<AvailableTicketsQuery>();
             For<IQuery<string, Event>>().Use<EventsQuery>();
-            
+            For<IQuery<int, Order>>().Use<OrdersQuery>();
+
             For<IGetAll<Event>>().Use<EventRepository>();
             For<IGetAll<Ticket>>().Use<TicketRepository>();
             For<IDelete<Ticket>>().Use<TicketRepository>();
