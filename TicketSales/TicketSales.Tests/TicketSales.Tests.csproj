@@ -83,14 +83,21 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Events\EventRepositoryTests.cs" />
     <Compile Include="Events\EventsQueryTests.cs" />
     <Compile Include="Events\SearchResponseViewModelTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Purchasing\AvailableTicketsQueryTests.cs" />
+    <Compile Include="Purchasing\OrderRepositoryTests.cs" />
     <Compile Include="Purchasing\TestData.cs" />
+    <Compile Include="Purchasing\TicketRepositoryTests.cs" />
     <Compile Include="Purchasing\UpdateInventoryHandlerTests.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\TicketSales.Events.Data\TicketSales.Events.Data.csproj">
+      <Project>{05661ad6-b13d-4894-a1e3-90014c6c30f6}</Project>
+      <Name>TicketSales.Events.Data</Name>
+    </ProjectReference>
     <ProjectReference Include="..\TicketSales.Events\TicketSales.Events.csproj">
       <Project>{6bd968d8-020f-4e73-9e4d-86ed1daba9d5}</Project>
       <Name>TicketSales.Events</Name>
@@ -98,6 +105,10 @@
     <ProjectReference Include="..\TicketSales.Infrastructure\TicketSales.Infrastructure.csproj">
       <Project>{5dac6cdb-f0b2-4727-97d5-e3ab1476b0d1}</Project>
       <Name>TicketSales.Infrastructure</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TicketSales.Purchasing.Data\TicketSales.Purchasing.Data.csproj">
+      <Project>{eab6b754-0018-4846-8504-699c217d4a87}</Project>
+      <Name>TicketSales.Purchasing.Data</Name>
     </ProjectReference>
     <ProjectReference Include="..\TicketSales.Purchasing\TicketSales.Purchasing.csproj">
       <Project>{fa4de66f-f011-4e9b-8c8d-8eaf05b4af42}</Project>

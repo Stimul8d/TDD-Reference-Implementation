@@ -1,4 +1,5 @@
-﻿using TicketSales.Purchasing.Domain.Handlers;
+﻿using TicketSales.Purchasing.Domain.Events;
+using TicketSales.Purchasing.Domain.Handlers;
 using Xunit;
 
 namespace TicketSales.Tests.Purchasing
@@ -8,9 +9,8 @@ namespace TicketSales.Tests.Purchasing
         [Theory, TestData]
         public void Handle_Updates_Inventory(TicketsPurchasedUpdateInventoryHandler sut)
         {
-            //sut.Handle(new TicketsPurchasedEvent(TestData.TicketId, 1));
-            //sut.Tickets.Count().Should().Be(41);
-            //TODO: FIX THIS
+            sut.Handle(new TicketsPurchasedEvent(TestData.UserId, TestData.TicketId, 1));
+            sut.Tickets.Count().Should().Be(41);
         }
     }
 }

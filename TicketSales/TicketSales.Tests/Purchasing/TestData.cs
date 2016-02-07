@@ -15,6 +15,7 @@ namespace TicketSales.Tests.Purchasing
     {
         public const int TicketId = 42;
         public const string EventName = "Event Name";
+        public const int UserId = 10;
 
         public TestData() : base(new Fixture().Customize(new AutoNSubstituteCustomization()))
         {
