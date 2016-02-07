@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using TicketSales.Infrastructure;
 using TicketSales.Infrastructure.DomainEvents;
+using TicketSales.Purchasing.Domain;
 using TicketSales.Purchasing.Domain.Events;
 using TicketSales.Purchasing.Queries;
 using TicketSales.Web.ViewModels.BuyTickets;
@@ -12,9 +14,9 @@ namespace TicketSales.Web.Controllers
 {
     public class BuyTicketsController : Controller
     {
-        private readonly OrdersQuery ordersQuery;
+        private readonly IQuery<int, Order> ordersQuery;
 
-        public BuyTicketsController(OrdersQuery ordersQuery)
+        public BuyTicketsController(IQuery<int, Order> ordersQuery)
         {
             this.ordersQuery = ordersQuery;
         }
@@ -40,7 +42,7 @@ namespace TicketSales.Web.Controllers
 
         public ActionResult Confirmation()
         {
-            return View(new ConfirmationViewModel {Message="Thanks!!"});
+            return View(new ConfirmationViewModel { Message = "Thanks!!" });
         }
 
         public ActionResult Cantformation()
