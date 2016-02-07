@@ -5,6 +5,7 @@ using NSubstitute;
 using Ploeh.AutoFixture;
 using Ploeh.AutoFixture.AutoNSubstitute;
 using Ploeh.AutoFixture.Xunit2;
+using Simple.Data;
 using TicketSales.Events.Domain;
 using TicketSales.Infrastructure.Data;
 using TicketSales.Purchasing.Domain;
@@ -29,6 +30,9 @@ namespace TicketSales.Tests.Purchasing
             var eventRepo = Substitute.For<IGetAll<Event>>();
             eventRepo.All().Returns(events);
             Fixture.Inject(eventRepo);
+
+            Database.UseMockAdapter(new InMemoryAdapter());
+
         }
     }
 }
