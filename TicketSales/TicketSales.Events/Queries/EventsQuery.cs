@@ -9,16 +9,16 @@ namespace TicketSales.Events.Queries
 {
     public class EventsQuery : IQuery<string, Event>
     {
-        private readonly IRepository<Event> eventsRepo;
+        private readonly IGetAll<Event> eventsGetter;
 
-        public EventsQuery(IRepository<Event> events)
+        public EventsQuery(IGetAll<Event> events)
         {
-            this.eventsRepo = events;
+            this.eventsGetter = events;
         }
 
         public IEnumerable<Event> Execute(string searchTerm = "")
         {
-            return eventsRepo.All().Where(e =>
+            return eventsGetter.All().Where(e =>
                 string.Equals(e.Location.Trim(), searchTerm.Trim(), StringComparison.CurrentCultureIgnoreCase) ||
                 string.Equals(e.Name.Trim(), searchTerm.Trim(), StringComparison.CurrentCultureIgnoreCase))
                 .ToList();

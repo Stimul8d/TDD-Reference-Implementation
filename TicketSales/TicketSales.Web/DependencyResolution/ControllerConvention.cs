@@ -15,6 +15,8 @@
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
+using StructureMap.Web.Pipeline;
+
 namespace TicketSales.Web.DependencyResolution {
     using System;
     using System.Web.Mvc;

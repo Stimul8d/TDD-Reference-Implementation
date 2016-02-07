@@ -12,11 +12,11 @@ namespace TicketSales.Web.Controllers
 {
     public class BuyTicketsController : Controller
     {
-        private readonly AvailableTicketsQuery availableTicketsQuery;
+        private readonly OrdersQuery ordersQuery;
 
-        public BuyTicketsController(AvailableTicketsQuery availableTicketsQuery)
+        public BuyTicketsController(OrdersQuery ordersQuery)
         {
-            this.availableTicketsQuery = availableTicketsQuery;
+            this.ordersQuery = ordersQuery;
         }
 
         public ActionResult Index()
@@ -27,16 +27,25 @@ namespace TicketSales.Web.Controllers
         [HttpPost]
         public ActionResult Buy(BuyTicketsRequestViewModel request)
         {
+            var ordersBefore = ordersQuery.Execute(request.UserId).Count();
+
             DomainEvents.Raise(
-                new TicketsPurchasedEvent(
+                new TicketsPurchasedEvent(request.UserId,
                     request.EventId, request.NumberOfTicketsRequired));
 
-            return RedirectToAction("Confirmation");
+            var ordersAfter = ordersQuery.Execute(request.UserId).Count();
+            var sucessfulOrder = ordersAfter == ordersBefore + 1;
+            return RedirectToAction(sucessfulOrder ? "Confirmation" : "Cantformation");
         }
 
         public ActionResult Confirmation()
         {
             return View(new ConfirmationViewModel {Message="Thanks!!"});
+        }
+
+        public ActionResult Cantformation()
+        {
+            return null;
         }
     }
 }

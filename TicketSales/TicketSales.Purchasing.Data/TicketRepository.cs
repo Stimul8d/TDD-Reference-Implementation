@@ -1,15 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using Simple.Data;
 using TicketSales.Infrastructure.Data;
 using TicketSales.Purchasing.Domain;
 
 namespace TicketSales.Purchasing.Data
 {
-    public class TicketRepository : IRepository<Ticket>
+    public class TicketRepository : IGetAll<Ticket>, IDelete<Ticket>
     {
         public IEnumerable<Ticket> All()
         {
@@ -24,7 +20,6 @@ namespace TicketSales.Purchasing.Data
         {
             var db = Database.Open();
             db.Tickets.DeleteById(item.Id);
-            var x = All();
         }
     }
 }

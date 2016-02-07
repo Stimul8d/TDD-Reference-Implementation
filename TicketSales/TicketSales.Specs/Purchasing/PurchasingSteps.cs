@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using FluentAssertions;
-using NSubstitute;
-using Simple.Data;
 using TechTalk.SpecFlow;
 using TicketSales.Infrastructure.Data;
 using TicketSales.Infrastructure.DomainEvents;
@@ -24,8 +22,8 @@ namespace TicketSales.Specs.Purchasing
         private int ticketsInBasket;
         private int eventId;
         private ActionResult result;
-        private int ticketsLeft;
         private IEnumerable<IHandle<TicketsPurchasedEvent>> ticketsPurchasedHandlers;
+        private int userId;
 
         public PurchasingSteps()
         {
@@ -36,17 +34,19 @@ namespace TicketSales.Specs.Purchasing
         public void GivenThereAreTicketsLeftForEvent(int numOfTickets, int eventId)
         {
             this.eventId = eventId;
-            ticketsLeft = numOfTickets;
 
-            var ad = new InMemoryAdapter();
-            ad.SetKeyColumn("Tickets", "EventId");
-            Database.UseMockAdapter(ad);
-            var db = Database.Open();
             for (var i = 0; i < numOfTickets; i++)
             {
-                db.Tickets.Insert(Id: Guid.NewGuid(), EventId: eventId);
+                Db.Tickets.Insert(Id: Guid.NewGuid(), EventId: eventId);
             }
         }
+
+        [Given(@"my userid is (.*)")]
+        public void GivenMyUseridIs(int userId)
+        {
+            this.userId = userId;
+        }
+
 
         [Given(@"I am on the Buy Ticket Page")]
         public void GivenIAmOnTheBuyTicketPage()
@@ -63,7 +63,9 @@ namespace TicketSales.Specs.Purchasing
         [When(@"I press buy")]
         public void WhenIPressBuy()
         {
-            var request = new BuyTicketsRequestViewModel { EventId = eventId, NumberOfTicketsRequired = ticketsInBasket };
+            var request = new BuyTicketsRequestViewModel { UserId = userId,
+                EventId = eventId, NumberOfTicketsRequired = ticketsInBasket };
+
             result = controller.Buy(request);
         }
 
@@ -78,7 +80,7 @@ namespace TicketSales.Specs.Purchasing
         [Then(@"there should be (.*) tickets left")]
         public void ThenThereShouldBeTicketsLeft(int expectedNumberOfTicketsLeft)
         {
-            var repository = Container.GetInstance<IRepository<Ticket>>();
+            var repository = Container.GetInstance<IGetAll<Ticket>>();
             repository.All().Count().Should().Be(expectedNumberOfTicketsLeft);
         }
 
@@ -91,7 +93,7 @@ namespace TicketSales.Specs.Purchasing
         [Then(@"I should be redirected to the cantfirmation page")]
         public void ThenIShouldBeRedirectedToTheCantfirmationPage()
         {
-            (result as RedirectToRouteResult).RouteValues["action"].Should().Be("NotEnoughLeft");
+            (result as RedirectToRouteResult).RouteValues["action"].Should().Be("Cantformation");
         }
 
         [Then(@"on the confirmation page I should see a message saying '(.*)'")]

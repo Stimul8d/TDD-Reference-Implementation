@@ -5,6 +5,7 @@
 
 Background: 
 	Given there are 4 tickets left for event 42
+	And my userid is 10
 	And I am on the Buy Ticket Page
 
 @Purchasing

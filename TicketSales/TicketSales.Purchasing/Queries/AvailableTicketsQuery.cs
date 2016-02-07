@@ -9,16 +9,16 @@ namespace TicketSales.Purchasing.Queries
 {
     public class AvailableTicketsQuery : IQuery<int, Ticket>
     {
-        private IRepository<Ticket> ticketRepo;
+        private IGetAll<Ticket> _ticketGetter;
 
-        public AvailableTicketsQuery(IRepository<Ticket> ticketRepo)
+        public AvailableTicketsQuery(IGetAll<Ticket> ticketGetter)
         {
-            this.ticketRepo = ticketRepo;
+            this._ticketGetter = ticketGetter;
         }
 
         public IEnumerable<Ticket> Execute(int eventId = 0)
         {
-            return ticketRepo.All().Where(t => t.EventId == eventId);
+            return _ticketGetter.All().Where(t => t.EventId == eventId);
         }
     }
 }

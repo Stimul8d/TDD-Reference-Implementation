@@ -20,12 +20,12 @@ namespace TicketSales.Tests.Purchasing
         {
             var tickets = new List<Ticket>(
                 Enumerable.Repeat(new Ticket(Guid.NewGuid(), TicketId), 42));
-            var ticketRepo = Substitute.For<IRepository<Ticket>>();
+            var ticketRepo = Substitute.For<IGetAll<Ticket>>();
             ticketRepo.All().Returns(tickets);
             Fixture.Inject(ticketRepo);
 
             var events = new List<Event> {new Event(EventName, "Stoke")};
-            var eventRepo = Substitute.For<IRepository<Event>>();
+            var eventRepo = Substitute.For<IGetAll<Event>>();
             eventRepo.All().Returns(events);
             Fixture.Inject(eventRepo);
         }

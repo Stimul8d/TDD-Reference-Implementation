@@ -55,9 +55,11 @@ namespace TicketSales.Web.DependencyResolution
             For<IQuery<int, Ticket>>().Use<AvailableTicketsQuery>();
             For<IQuery<string, Event>>().Use<EventsQuery>();
             
-
-            For<IRepository<Event>>().Use<EventRepository>();
-            For<IRepository<Ticket>>().Use<TicketRepository>();
+            For<IGetAll<Event>>().Use<EventRepository>();
+            For<IGetAll<Ticket>>().Use<TicketRepository>();
+            For<IDelete<Ticket>>().Use<TicketRepository>();
+            For<IGetAll<Order>>().Use<OrderRepository>();
+            For<ICreate<Order>>().Use<OrderRepository>();
         }
 
         #endregion

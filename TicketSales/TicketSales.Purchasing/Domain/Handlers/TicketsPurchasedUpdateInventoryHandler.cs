@@ -1,6 +1,5 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+using System.Data.Odbc;
 using System.Linq;
 using TicketSales.Infrastructure.Data;
 using TicketSales.Infrastructure.DomainEvents;
@@ -10,23 +9,37 @@ namespace TicketSales.Purchasing.Domain.Handlers
 {
     public class TicketsPurchasedUpdateInventoryHandler : IHandle<TicketsPurchasedEvent>
     {
-        private IRepository<Ticket> ticketRepo;
+        private readonly IGetAll<Ticket> ticketGetter;
+        private readonly IDelete<Ticket> ticketDeleter;
+        private readonly ICreate<Order> orderCreater;
 
-        public TicketsPurchasedUpdateInventoryHandler(IRepository<Ticket> ticketRepo)
+        public TicketsPurchasedUpdateInventoryHandler(
+            IGetAll<Ticket> ticketGetter, IDelete<Ticket> ticketDeleter,
+            ICreate<Order> orderCreater)
         {
-            this.ticketRepo = ticketRepo;
+            this.ticketGetter = ticketGetter;
+            this.ticketDeleter = ticketDeleter;
+            this.orderCreater = orderCreater;
         }
 
         public void Handle(TicketsPurchasedEvent purchase)
         {
-            var ticketsSold = ticketRepo.All()
+            var ticketsSold = ticketGetter.All()
                 .Where(t => purchase.EventId == t.EventId)
                 .Take(purchase.NumberOfTickets).ToList();
 
             var notEnoughInventory = purchase.NumberOfTickets > ticketsSold.Count;
             if (notEnoughInventory) return;
 
-            foreach (var ticket in ticketsSold) ticketRepo.Delete(ticket);
+            foreach (var ticket in ticketsSold)
+            {
+                ticketDeleter.Delete(ticket);
+            }
+
+            orderCreater.Create(new Order(
+                Guid.NewGuid(), purchase.UserId,
+                purchase.EventId, purchase.NumberOfTickets));
+
         }
     }
 }

@@ -1,12 +1,20 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 using TicketSales.Infrastructure.DomainEvents;
 
 namespace TicketSales.Purchasing.Domain.Events
 {
     public class TicketsPurchasedEvent : IDomainEvent
     {
+        private readonly int userId;
         private readonly int eventId;
         private readonly int numberOfTickets;
+
+        public int UserId
+        {
+            get { return userId; }
+            
+        }
 
         public int EventId
         {
@@ -19,8 +27,9 @@ namespace TicketSales.Purchasing.Domain.Events
         }
 
         [DebuggerStepThrough]
-        public TicketsPurchasedEvent(int eventId, int numberOfTickets)
+        public TicketsPurchasedEvent(int userId, int eventId, int numberOfTickets)
         {
+            this.userId = userId;
             this.numberOfTickets = numberOfTickets;
             this.eventId = eventId;
         }

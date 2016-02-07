@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using NSubstitute;
+using Simple.Data;
 using StructureMap;
 using TicketSales.Events.Domain;
 using TicketSales.Infrastructure.Data;
@@ -17,23 +18,15 @@ namespace TicketSales.Specs
             get { return container; }
         }
 
-        public IRepository<Event> EventRepository { get; set; }
-
-        public IRepository<Ticket> TicketRepository { get; set; }
+        protected dynamic Db;
 
         public IntegrationTestBase()
         {
             container = IoC.Initialize();
-            //container.EjectAllInstancesOf<IRepository<Event>>();
-            //container.EjectAllInstancesOf<IRepository<Ticket>>();
-
-            //EventRepository = Substitute.For<IRepository<Event>>();
-            //container.Inject(typeof(IRepository<Event>), EventRepository);
-
-            //TicketRepository = Substitute.For<IRepository<Ticket>>();
-            //container.Inject(typeof(IRepository<Ticket>), TicketRepository);
-
             DomainEvents.Container = container;
+
+            Database.UseMockAdapter(new InMemoryAdapter());
+            Db = Database.Open();
         }
     }
 }
