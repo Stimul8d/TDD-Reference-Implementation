@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Linq;
 using FluentAssertions;
-using Ploeh.AutoFixture.Xunit2;
 using TicketSales.Events.Domain;
 using TicketSales.Events.Queries;
 using TicketSales.Tests.Purchasing;

@@ -1,18 +1,13 @@
-﻿using System.Collections.Generic;
-using NSubstitute;
-using Simple.Data;
+﻿using Simple.Data;
 using StructureMap;
-using TicketSales.Events.Domain;
-using TicketSales.Infrastructure.Data;
 using TicketSales.Infrastructure.DomainEvents;
-using TicketSales.Purchasing.Domain;
 using TicketSales.Web.DependencyResolution;
 
 namespace TicketSales.Specs
 {
     public class IntegrationTestBase
     {
-        private IContainer container;
+        private readonly IContainer container;
         public IContainer Container
         {
             get { return container; }

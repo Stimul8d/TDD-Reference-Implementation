@@ -5,7 +5,6 @@ using System.Web.Mvc;
 using FluentAssertions;
 using NSubstitute;
 using TechTalk.SpecFlow;
-using TicketSales.Infrastructure;
 using TicketSales.Infrastructure.Data;
 using TicketSales.Infrastructure.DomainEvents;
 using TicketSales.Purchasing.Domain;

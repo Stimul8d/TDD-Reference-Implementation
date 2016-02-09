@@ -32,5 +32,15 @@ namespace TicketSales.Tests.Purchasing
             var countAfter = (int)db.Tickets.GetCount();
             countAfter.Should().Be(countBefore - 1);
         }
+
+        [Theory, TestData]
+        public void GetNext_Get_Correct_Data(TicketRepository sut)
+        {
+            var db = Database.Open();
+            db.Tickets.Insert(TestData.AllTickets);
+            var results = sut.GetNext(TestData.TenLessThanTotalNumberOfTickets).ToList();
+            
+            results.ShouldAllBeEquivalentTo(TestData.AllTickets.Take(10));
+        }
     }
 }
