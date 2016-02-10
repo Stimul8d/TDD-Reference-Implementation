@@ -8,12 +8,12 @@ namespace TicketSales.Purchasing.Domain.Handlers
 {
     public class TicketsPurchasedUpdateInventoryHandler : IHandle<TicketsPurchasedEvent>
     {
-        private readonly ITake<Ticket> ticketGetter;
+        private readonly IGetAll<Ticket> ticketGetter;
         private readonly IDelete<Ticket> ticketDeleter;
         private readonly ICreate<Order> orderCreater;
 
         public TicketsPurchasedUpdateInventoryHandler(
-            ITake<Ticket> ticketGetter, IDelete<Ticket> ticketDeleter,
+            IGetAll<Ticket> ticketGetter, IDelete<Ticket> ticketDeleter,
             ICreate<Order> orderCreater)
         {
             this.ticketGetter = ticketGetter;

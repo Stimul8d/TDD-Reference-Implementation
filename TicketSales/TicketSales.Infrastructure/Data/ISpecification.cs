@@ -1,7 +1,10 @@
-﻿namespace TicketSales.Infrastructure.Data
+﻿using System.Collections;
+using System.Collections.Generic;
+
+namespace TicketSales.Infrastructure.Data
 {
-    public interface ISpecification
+    public interface ISpecification<out T>
     {
-        dynamic Execute(int eventId);
+        IEnumerable<T> Execute(int eventId);
     }
 }

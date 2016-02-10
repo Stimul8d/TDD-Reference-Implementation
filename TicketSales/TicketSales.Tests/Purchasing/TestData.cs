@@ -6,7 +6,6 @@ using Ploeh.AutoFixture;
 using Ploeh.AutoFixture.AutoNSubstitute;
 using Ploeh.AutoFixture.Xunit2;
 using Simple.Data;
-using TicketSales.Events.Data;
 using TicketSales.Events.Domain;
 using TicketSales.Infrastructure.Data;
 using TicketSales.Purchasing.Domain;
@@ -16,7 +15,7 @@ namespace TicketSales.Tests.Purchasing
     public class TestData : AutoDataAttribute
     {
         public const int TicketId = 42;
-        public const int NotTicketId = 999;
+        public const int NotEventId = 999;
         public const string EventName = "Event Name";
         public const int UserId = 15;
         public const int EventId = 1337;
@@ -32,12 +31,12 @@ namespace TicketSales.Tests.Purchasing
             new Fixture().Customize(new AutoNSubstituteCustomization())
             .Customize(new StableFiniteSequenceCustomization()))
         {
-            //need to test specifications
-            AllTickets.AddRange(Enumerable.Repeat(new Ticket(Guid.NewGuid(),
-                TicketId), TotalNumberOfTickets));
+            allTickets.Clear();
+            allTickets.AddRange(Enumerable.Repeat(new Ticket(Guid.NewGuid(),
+                EventId), HalfNumberOfTickets));
 
-            AllTickets.AddRange(Enumerable.Repeat(new Ticket(Guid.NewGuid()),
-                NotTicketId), HalfNumberOfTickets));
+            allTickets.AddRange(Enumerable.Repeat(new Ticket(Guid.NewGuid(),
+                NotEventId), HalfNumberOfTickets));
 
             var ticketRepo = Substitute.For<IGetAll<Ticket>>();
             ticketRepo.All().Returns(AllTickets);

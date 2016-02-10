@@ -1,14 +1,20 @@
-﻿using Simple.Data;
+﻿using System.Collections.Generic;
+using Simple.Data;
 using TicketSales.Infrastructure.Data;
+using TicketSales.Purchasing.Domain;
 
 namespace TicketSales.Purchasing.Data.Specifications
 {
-    public class TicketsByEventIdSpecification : ISpecification
+    public class TicketsByEventIdSpecification : ISpecification<Ticket>
     {
-        public dynamic Execute(int eventId)
+        public IEnumerable<Ticket> Execute(int eventId)
         {
             var db = Database.Open();
-            return db.Tickets.Where(db.Tickets.EventId == eventId);
+            var results = db.Tickets.FindAll(db.Tickets.EventId == eventId);
+            foreach (var ticket in results)
+            {
+                yield return new Ticket(ticket.Id, ticket.EventId);
+            }
         }
     }
 }
