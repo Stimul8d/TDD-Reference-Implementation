@@ -16,22 +16,28 @@ namespace TicketSales.Tests.Purchasing
     public class TestData : AutoDataAttribute
     {
         public const int TicketId = 42;
+        public const int NotTicketId = 999;
         public const string EventName = "Event Name";
         public const int UserId = 15;
         public const int EventId = 1337;
+        public const int HalfNumberOfTickets = 50;
         public const int TotalNumberOfTickets = 100;
         public const int TenLessThanTotalNumberOfTickets = 10;
         public const int TenMoreThanTotalNumberOfTickets = 110;
 
-        public static IEnumerable<Ticket> AllTickets { get; private set; }
+        private static List<Ticket> allTickets = new List<Ticket>();
+        public static IEnumerable<Ticket> AllTickets { get { return allTickets; } }
 
         public TestData() : base(
             new Fixture().Customize(new AutoNSubstituteCustomization())
             .Customize(new StableFiniteSequenceCustomization()))
         {
-            AllTickets = new List<Ticket>(
-                Enumerable.Repeat(new Ticket(Guid.NewGuid(),
+            //need to test specifications
+            AllTickets.AddRange(Enumerable.Repeat(new Ticket(Guid.NewGuid(),
                 TicketId), TotalNumberOfTickets));
+
+            AllTickets.AddRange(Enumerable.Repeat(new Ticket(Guid.NewGuid()),
+                NotTicketId), HalfNumberOfTickets));
 
             var ticketRepo = Substitute.For<IGetAll<Ticket>>();
             ticketRepo.All().Returns(AllTickets);

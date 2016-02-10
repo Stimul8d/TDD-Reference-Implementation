@@ -105,6 +105,7 @@
     <Compile Include="Purchasing\OrdersQueryTests.cs" />
     <Compile Include="Purchasing\TestData.cs" />
     <Compile Include="Purchasing\TicketRepositoryTests.cs" />
+    <Compile Include="Purchasing\TicketsByEventIdSpecificationTests.cs" />
     <Compile Include="Purchasing\UpdateInventoryHandlerTests.cs" />
   </ItemGroup>
   <ItemGroup>

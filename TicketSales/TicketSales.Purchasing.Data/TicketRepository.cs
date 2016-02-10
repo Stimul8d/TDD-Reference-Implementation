@@ -6,7 +6,7 @@ using TicketSales.Purchasing.Domain;
 namespace TicketSales.Purchasing.Data
 {
     public class TicketRepository :
-        IGetAll<Ticket>, IDelete<Ticket>, IGetNext<Ticket>
+        IGetAll<Ticket>, IDelete<Ticket>, ITake<Ticket>
     {
         public IEnumerable<Ticket> All()
         {
@@ -23,7 +23,7 @@ namespace TicketSales.Purchasing.Data
             db.Tickets.DeleteById(item.Id);
         }
 
-        public IEnumerable<Ticket> GetNext(int num)
+        public IEnumerable<Ticket> Take(int num)
         {
             var db = Database.Open();
             foreach (var ticket in db.Tickets.All().Take(num))

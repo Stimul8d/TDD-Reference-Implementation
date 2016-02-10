@@ -34,11 +34,11 @@ namespace TicketSales.Tests.Purchasing
         }
 
         [Theory, TestData]
-        public void GetNext_Get_Correct_Data(TicketRepository sut)
+        public void Take_Gets_Correct_Data(TicketRepository sut)
         {
             var db = Database.Open();
             db.Tickets.Insert(TestData.AllTickets);
-            var results = sut.GetNext(TestData.TenLessThanTotalNumberOfTickets).ToList();
+            var results = sut.Take(TestData.TenLessThanTotalNumberOfTickets).ToList();
             
             results.ShouldAllBeEquivalentTo(TestData.AllTickets.Take(10));
         }

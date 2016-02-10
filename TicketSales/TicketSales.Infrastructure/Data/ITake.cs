@@ -2,8 +2,8 @@
 
 namespace TicketSales.Infrastructure.Data
 {
-    public interface IGetNext<out T>
+    public interface ITake<out T>
     {
-        IEnumerable<T> GetNext(int num);
+        IEnumerable<T> Take(int num);
     }
 }
