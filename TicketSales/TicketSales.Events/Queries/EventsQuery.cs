@@ -18,9 +18,11 @@ namespace TicketSales.Events.Queries
 
         public IEnumerable<Event> Execute(string searchTerm = "")
         {
-            return eventsGetter.All().Where(e =>
-                string.Equals(e.Location.Trim(), searchTerm.Trim(), StringComparison.CurrentCultureIgnoreCase) ||
-                string.Equals(e.Name.Trim(), searchTerm.Trim(), StringComparison.CurrentCultureIgnoreCase))
+            var events = eventsGetter.All();
+
+            return events.Where(e =>
+                e.Location.ToUpper().Trim().Contains(searchTerm.Trim().ToUpper()) ||
+                e.Name.Trim().ToUpper().Contains(searchTerm.Trim().ToUpper()))
                 .ToList();
         }
     }

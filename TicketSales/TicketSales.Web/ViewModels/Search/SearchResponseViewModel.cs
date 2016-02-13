@@ -21,7 +21,7 @@ namespace TicketSales.Web.ViewModels.Search
             get { return message; }
         }
 
-        public SearchResponseViewModel(IEnumerable<Event> events, string message = "Search Results") :
+        public SearchResponseViewModel(IEnumerable<Event> events, string message = "SearchResults Results") :
             this(events.Select(e => Mapper.Map<Event, SearchedEventViewModel>(e)), message)
         { }
 

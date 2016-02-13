@@ -49,6 +49,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Data\ICreate.cs" />
+    <Compile Include="Data\ICreateTestData.cs" />
     <Compile Include="Data\IDelete.cs" />
     <Compile Include="Data\IGetAll.cs" />
     <Compile Include="Data\ISpecification.cs" />

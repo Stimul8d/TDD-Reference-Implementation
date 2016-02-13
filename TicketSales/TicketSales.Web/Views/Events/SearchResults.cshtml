@@ -1,0 +1,30 @@
+﻿@model TicketSales.Web.ViewModels.Search.SearchResponseViewModel
+
+@{
+    ViewBag.Title = "SearchResults";
+}
+
+<h2>Search Results</h2>
+<p>@Model.Message</p>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Message)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model.Events)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelitem => item.Location)
+    </td>
+</tr>
+    }
+
+</table>

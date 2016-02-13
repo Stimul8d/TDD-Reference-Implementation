@@ -40,7 +40,7 @@ namespace TicketSales.Specs.Events
         [When(@"I search for (.*)")]
         public void WhenISearchFor(string term)
         {
-            result = controller.Search(new SearchRequestViewModel { Term = term });
+            result = controller.SearchResults(new SearchRequestViewModel { Term = term });
         }
 
         [Then(@"the results should show an event in (.*)")]

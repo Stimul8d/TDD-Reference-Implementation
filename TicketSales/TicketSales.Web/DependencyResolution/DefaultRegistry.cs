@@ -26,6 +26,7 @@ using TicketSales.Purchasing.Domain;
 using TicketSales.Purchasing.Domain.Events;
 using TicketSales.Purchasing.Domain.Handlers;
 using TicketSales.Purchasing.Queries;
+using TicketSales.Web.Controllers;
 
 namespace TicketSales.Web.DependencyResolution
 {
@@ -63,6 +64,8 @@ namespace TicketSales.Web.DependencyResolution
             For<IDelete<Ticket>>().Use<TicketRepository>();
             For<IGetAll<Order>>().Use<OrderRepository>();
             For<ICreate<Order>>().Use<OrderRepository>();
+
+            For<ICreateTestData>().Use<EventsTestDataCreator>();
         }
 
         #endregion

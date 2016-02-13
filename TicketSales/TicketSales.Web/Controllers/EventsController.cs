@@ -18,11 +18,16 @@ namespace TicketSales.Web.Controllers
             this.eventQuery = eventQuery;
         }
 
-        // GET: Events
-        public ActionResult Search(SearchRequestViewModel searchViewModel)
+        public ActionResult Search()
+        {
+            return View("Search");
+        }
+
+        [HttpPost]
+        public ActionResult SearchResults(SearchRequestViewModel searchViewModel)
         {
             IEnumerable<Event> events = new List<Event>();
-            var message = "Search Results...";
+            var message = "SearchResults Results...";
             try
             {
                 events = eventQuery.Execute(searchViewModel.Term).ToList();
