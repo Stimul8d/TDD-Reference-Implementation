@@ -13,16 +13,28 @@ namespace TicketSales.Tests.Purchasing
     {
         [Theory, TestData]
         public void Handle_Updates_Inventory_With_Enough_Inventory(TicketsPurchasedUpdateInventoryHandler sut,
-            IGetAll<Ticket> ticketGetter, IDelete<Ticket> ticketDeleter)
+            IGetAll<Ticket> ticketGetter, IDelete<Ticket> ticketDeleter,
+            ICreate<Order> orderCreator)
         {
-            ticketDeleter.Received(3).Delete(Arg.Any<Ticket>());
+            sut.Handle(new TicketsPurchasedEvent(TestData.TicketId,
+                TestData.EventId, TestData.TenLessThanTotalNumberOfTickets));
 
-            sut.Handle(new TicketsPurchasedEvent(TestData.UserId,
-                TestData.TicketId, TestData.TenLessThanTotalNumberOfTickets));
+            ticketGetter.Received(1).All();
+            ticketDeleter.Received(10).Delete(Arg.Any<Ticket>());
+            orderCreator.Received(1).Create(Arg.Any<Order>());
+        }
 
+        [Theory, TestData]
+        public void Handle_Is_NOP_Without_Enough_Inventory(TicketsPurchasedUpdateInventoryHandler sut,
+            IGetAll<Ticket> ticketGetter, IDelete<Ticket> ticketDeleter,
+            ICreate<Order> orderCreator)
+        {
+            sut.Handle(new TicketsPurchasedEvent(TestData.TicketId,
+                TestData.EventId, TestData.TenMoreThanTotalNumberOfTickets));
 
-            //sut.Tickets.Count().Should().Be(41);
-            //TODO:Fix me
+            ticketGetter.Received(1).All();
+            ticketDeleter.DidNotReceive().Delete(Arg.Any<Ticket>());
+            orderCreator.DidNotReceive().Create(Arg.Any<Order>());
         }
     }
 }

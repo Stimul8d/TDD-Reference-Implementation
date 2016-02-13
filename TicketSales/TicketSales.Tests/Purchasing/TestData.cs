@@ -52,6 +52,10 @@ namespace TicketSales.Tests.Purchasing
             orderRepo.All().Returns(orders);
             Fixture.Inject(orderRepo);
 
+            Fixture.Freeze<IDelete<Ticket>>();
+            Fixture.Freeze<ICreate<Order>>();
+            Fixture.Freeze<IGetAll<Ticket>>();
+
             Database.UseMockAdapter(new InMemoryAdapter());
 
         }
