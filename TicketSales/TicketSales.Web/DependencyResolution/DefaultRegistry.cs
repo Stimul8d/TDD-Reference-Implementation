@@ -16,6 +16,7 @@
 // --------------------------------------------------------------------------------------------------------------------
 
 using TicketSales.Events.Data;
+using TicketSales.Events.Data.Specifications;
 using TicketSales.Events.Domain;
 using TicketSales.Events.Queries;
 using TicketSales.Infrastructure;
@@ -55,8 +56,11 @@ namespace TicketSales.Web.DependencyResolution
             For<IHandle<TicketsPurchasedEvent>>()
                 .Use<TicketsPurchasedEmailConfirmationHandler>();
 
+            For<ISpecification<Event>>().Use<EventsByIdSpecification>();
+
             For<IQuery<int, Ticket>>().Use<AvailableTicketsQuery>();
             For<IQuery<string, Event>>().Use<EventsQuery>();
+            For<IQuery<int, Event>>().Use<EventByIdQuery>();
             For<IQuery<int, Order>>().Use<OrdersQuery>();
 
             For<IGetAll<Event>>().Use<EventRepository>();
@@ -66,6 +70,7 @@ namespace TicketSales.Web.DependencyResolution
             For<ICreate<Order>>().Use<OrderRepository>();
 
             For<ICreateTestData>().Use<EventsTestDataCreator>();
+            For<ICreateTestData>().Use<TicketsTestDataCreator>();
         }
 
         #endregion

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using TicketSales.Events.Domain;
 using TicketSales.Infrastructure;
 using TicketSales.Infrastructure.DomainEvents;
 using TicketSales.Purchasing.Domain;
@@ -16,17 +17,27 @@ namespace TicketSales.Web.Controllers
     {
         private readonly IBoxOffice boxOffice;
         private readonly IQuery<int, Order> ordersQuery;
+        private readonly IQuery<int, Event> eventsQuery;
+        private readonly IQuery<int, Ticket> ticketsQuery;
 
         public BuyTicketsController(IBoxOffice boxOffice,
-            IQuery<int, Order> ordersQuery)
+            IQuery<int, Order> ordersQuery, IQuery<int, Event> eventsQuery,
+            IQuery<int,Ticket> ticketsQuery)
         {
             this.boxOffice = boxOffice;
             this.ordersQuery = ordersQuery;
+            this.eventsQuery = eventsQuery;
+            this.ticketsQuery = ticketsQuery;
         }
 
-        public ActionResult Index()
+        public ActionResult Index(int id)
         {
-            return View();
+            var @event = eventsQuery.Execute(id).FirstOrDefault();
+            if (@event == null) RedirectToAction("Search", "Events");
+            var numOfTickets = ticketsQuery.Execute(id).Count();
+
+            var vm = new BuyTicketsSummaryViewModel(numOfTickets, @event.Id, @event.Name, @event.Location);
+            return View(vm);
         }
 
         [HttpPost]
@@ -49,7 +60,7 @@ namespace TicketSales.Web.Controllers
                 return RedirectToAction("Error");
                 throw;
             }
-            
+
         }
 
         public ActionResult Error()

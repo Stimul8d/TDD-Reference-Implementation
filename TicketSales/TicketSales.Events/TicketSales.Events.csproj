@@ -42,6 +42,7 @@
   <ItemGroup>
     <Compile Include="Domain\Event.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Queries\EventByIdQuery.cs" />
     <Compile Include="Queries\EventsQuery.cs" />
   </ItemGroup>
   <ItemGroup>
